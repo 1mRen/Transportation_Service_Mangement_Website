@@ -81,13 +81,13 @@ CREATE TABLE `reservation` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `reservationstatushistory`
+-- Table structure for table `reserve_status_history`
 --
 
-DROP TABLE IF EXISTS `reservationstatushistory`;
+DROP TABLE IF EXISTS `reserve_status_history`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `reservationstatushistory` (
+CREATE TABLE `reserve_status_history` (
   `status_id` int NOT NULL AUTO_INCREMENT,
   `reservation_id` int NOT NULL,
   `status` enum('Pending','Approved','Rejected','Completed') NOT NULL,
@@ -95,7 +95,7 @@ CREATE TABLE `reservationstatushistory` (
   `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`status_id`),
   KEY `reservation_id` (`reservation_id`),
-  CONSTRAINT `reservationstatushistory_ibfk_1` FOREIGN KEY (`reservation_id`) REFERENCES `reservation` (`reservation_id`) ON DELETE CASCADE
+  CONSTRAINT `reserve_status_history_ibfk_1` FOREIGN KEY (`reservation_id`) REFERENCES `reservation` (`reservation_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -108,18 +108,18 @@ DROP TABLE IF EXISTS `users`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
   `user_id` int NOT NULL AUTO_INCREMENT,
+  `full_name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password_hash` varchar(255) NOT NULL,
-  `role` enum('Applicant','Admin') NOT NULL,
+  `role` enum('Admin','Applicant') NOT NULL DEFAULT 'Applicant',
   `applicant_id` int DEFAULT NULL,
-  `driver_id` int DEFAULT NULL,
   PRIMARY KEY (`user_id`),
+  UNIQUE KEY `email` (`email`),
   UNIQUE KEY `username` (`username`),
   KEY `applicant_id` (`applicant_id`),
-  KEY `driver_id` (`driver_id`),
-  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`applicant_id`) REFERENCES `applicant` (`applicant_id`) ON DELETE SET NULL,
-  CONSTRAINT `users_ibfk_2` FOREIGN KEY (`driver_id`) REFERENCES `driver` (`driver_id`) ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`applicant_id`) REFERENCES `applicant` (`applicant_id`) ON DELETE SET NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -170,4 +170,4 @@ CREATE TABLE `vehicleassignment` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-02-09 13:56:27
+-- Dump completed on 2025-02-18 20:29:15
