@@ -1,6 +1,6 @@
 <?php
 
-if (empty($_POST["name"])) { // Ensure the correct field name
+if (empty($_POST["name"])) {
     die("Full Name is required");
 }
 
@@ -29,8 +29,8 @@ $password_hash = password_hash($_POST["password"], PASSWORD_DEFAULT);
 // Include database connection
 $mysqli = require __DIR__ . "/database.php";
 
-$sql = "INSERT INTO users (full_name, username, email, password_hash) 
-        VALUES (?, ?, ?, ?)";
+$sql = "INSERT INTO users (full_name, username, email, password_hash, role) 
+        VALUES (?, ?, ?, ?, ?)";
 
 $stmt = $mysqli->stmt_init();
 
@@ -43,16 +43,30 @@ $full_name = trim($_POST["name"]);
 $email = trim($_POST["email"]);
 $username = trim($_POST["username"]);
 
-$stmt->bind_param("ssss", $full_name, $username, $email, $password_hash);
+// Assign role based on username or email
+$admin_email_domains = ["company.com", "admin.org"]; // Add allowed admin domains
+$email_domain = substr(strrchr($email, "@"), 1); // Extract domain from email
+
+if (str_ends_with($username, '-admin') || in_array($email_domain, $admin_email_domains) || str_starts_with($email, 'admin@')) {
+    $role = "Admin"; // Must match ENUM('Admin', 'Applicant') exactly
+} else {
+    $role = "Applicant"; // Default role for regular users
+}
+
+// Bind parameters
+$stmt->bind_param("sssss", $full_name, $username, $email, $password_hash, $role);
 
 if ($stmt->execute()) {
-    echo "Signup Successful";
+    echo "Signup successful. Please log in.";
+    // Redirect to login page
+    header("Location: login.php");
+    exit();
 } else {
-    
     if ($mysqli->errno === 1062) {
-        die("email already taken");
+        die("Email already taken");
     } else {
-        die($mysqli->error . " " . $myqli->errno);
+        die($mysqli->error . " " . $mysqli->errno);
     }
 }
+
 ?>

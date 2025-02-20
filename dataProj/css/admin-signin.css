@@ -1,0 +1,150 @@
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('../img/bus.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Position navbar at the upper left */
+.navbar {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 0px;
+}
+
+/* Navbar links should align in upper left corner */
+.navbar-links {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+    padding: 10px 0;
+}
+
+/* Logo styling */
+.navbar-brand .logo {
+    width: 200px;
+    height: 50px;
+}
+/* Navbar links styling */
+.nav-links a {
+    text-decoration: none;
+    color: #fff9f9;
+    font-size: 1.2em;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 10px 70px;
+}
+
+/* Hover effect */
+.nav-links a:hover {
+    color: darkcyan;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+/* Main container styling */
+.main-container {
+    background: white;
+    border-radius: 30px;
+    max-width: 800px;
+    width: 100%;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 400px;
+    padding:0rem;
+}
+
+/* Inner container styling for form and welcome sections */
+.inner-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    border-radius: 30px;
+    height: 100%;
+}
+
+.form-section {
+    width: 50%;
+    padding: 2rem;
+    text-align: left;
+    background-color: #ffffff;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+.welcome-section {
+    width: 50%;
+    padding: 2rem;
+    text-align: center;
+    background-color: #418ADE;
+    color: white;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.welcome-section button {
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 150px;
+}
+
+.welcome-section button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Form inputs styling */
+input[type="email"],
+input[type="password"] {
+    font-weight: bold;
+    padding: 0.75rem;
+    margin-top: 0.5rem;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 100%;
+}
+
+button {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 300px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.form-section .logo {
+    text-align: center;
+    margin-bottom: 2rem;
+}
