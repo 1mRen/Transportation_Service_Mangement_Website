@@ -119,7 +119,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `username` (`username`),
   KEY `applicant_id` (`applicant_id`),
   CONSTRAINT `users_ibfk_1` FOREIGN KEY (`applicant_id`) REFERENCES `applicant` (`applicant_id`) ON DELETE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,13 +141,13 @@ CREATE TABLE `vehicle` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `vehicleassignment`
+-- Table structure for table `vehicle_assignment`
 --
 
-DROP TABLE IF EXISTS `vehicleassignment`;
+DROP TABLE IF EXISTS `vehicle_assignment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `vehicleassignment` (
+CREATE TABLE `vehicle_assignment` (
   `assignment_id` int NOT NULL AUTO_INCREMENT,
   `vehicle_id` int NOT NULL,
   `driver_id` int NOT NULL,
@@ -156,8 +156,8 @@ CREATE TABLE `vehicleassignment` (
   PRIMARY KEY (`assignment_id`),
   KEY `vehicle_id` (`vehicle_id`),
   KEY `driver_id` (`driver_id`),
-  CONSTRAINT `vehicleassignment_ibfk_1` FOREIGN KEY (`vehicle_id`) REFERENCES `vehicle` (`vehicle_id`) ON DELETE CASCADE,
-  CONSTRAINT `vehicleassignment_ibfk_2` FOREIGN KEY (`driver_id`) REFERENCES `driver` (`driver_id`) ON DELETE CASCADE
+  CONSTRAINT `vehicle_assignment_ibfk_1` FOREIGN KEY (`vehicle_id`) REFERENCES `vehicle` (`vehicle_id`) ON DELETE CASCADE,
+  CONSTRAINT `vehicle_assignment_ibfk_2` FOREIGN KEY (`driver_id`) REFERENCES `driver` (`driver_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -170,4 +170,4 @@ CREATE TABLE `vehicleassignment` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-02-18 20:29:15
+-- Dump completed on 2025-02-20 23:33:01
