@@ -1,0 +1,217 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #280036, #609cb2, #280036);
+    background-size: 300% 300%;
+    animation: gradientAnimation 15s ease infinite;
+    color: white;
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.container {
+    width: 95%; /* Increased width */
+    max-width: 1920px; /* Increased max width */
+    margin: 20px auto;
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly less transparent */
+    border-radius: 12px; /* Smoother corners */
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.4); /* Stronger shadow */
+    display: flex; /* Flexbox for layout */
+    flex-direction: column; /* Stack header and content vertically */
+    min-height: 95vh; /* Minimum height to fill viewport */
+}
+
+header {
+    background-color: rgba(0, 0, 0, 0.4);
+    color: #000000;
+    text-align: center;
+    padding: 30px; /* Increased padding */
+    font-size: 2em; /* Larger font */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2); /* Subtle border */
+}
+
+.content {
+    display: flex;
+    flex-grow: 1; /* Allow content to expand and fill space */
+}
+
+aside {
+    width: 280px; /* Increased width */
+    background-color: #343940;
+    padding: 30px; /* Increased padding */
+    height: 100%; /* Full height of content */
+    min-height: 145vh;
+    box-sizing: border-box; /* Include padding in width and height */
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.user-profile img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.user-info h2 {
+    margin: 0;
+    font-size: 1.4em;
+    color: white;
+}
+
+.user-info p {
+    margin: 5px 0;
+    color: #ccc;
+}
+
+aside a {
+    text-decoration: none;
+    color: #3498db;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li a {
+    display: block;
+    padding: 15px;
+    text-decoration: none;
+    color: #ffffff;
+    border-bottom: 1px solid #555;
+    transition: background-color 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: #4a4f56;
+}
+
+.logout {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    cursor: pointer;
+    border-radius: 6px;
+    width: 100%;
+    margin-top: 30px;
+    transition: background-color 0.3s;
+}
+
+.logout:hover {
+    background-color: #c23b2b;
+}
+
+main {
+    flex: 1;
+    padding: 30px;
+}
+
+.announcement {
+    background-color: #ffffff;
+    color: rgb(4, 4, 4);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.announcement h2 {
+    margin-top: 0;
+    color: #3498db;
+}
+
+h1, h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-section {
+    margin-bottom: 40px;
+    color: #000000;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+select,
+textarea {
+    width: calc(100% - 16px);
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #3498db;
+}
+
+textarea {
+    resize: vertical;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.booking-filters {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.booking-filters input[type="text"],
+.booking-filters input[type="date"],
+.booking-filters select,
+.booking-filters button {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.booking-filters button {
+    background-color: #3498db;
+    color: #fff;
+    cursor: pointer;
+}

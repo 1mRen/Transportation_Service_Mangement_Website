@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Page - Transportation Booking System</title>
+    <link rel="stylesheet" href="css/booking-vehicle.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            Transportation Booking System
+        </header>
+        <div class="content">
+            <aside>
+                <div class="user-profile">
+                    <img src="img/Cat-Meme-Stickers-Featured.png" alt="User Icon" class="user-icon">
+                    <div class="user-info">
+                        <h2>User0001</h2>
+                        <p></p>
+                        <a href="profile-pic.html">View profile</a>
+                    </div>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="booking-pages.html">Booking</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="booking-vehicle.html">Vehicles</a></li>
+                        <li><a href="user.html">Users</a></li>
+                        <li><a href="driver.html">Drivers</a></li>
+                        <li><a href="contact.html">Contact-us</a></li>
+                    </ul>
+                </nav>
+                <button class="logout">Log out</button>
+            </aside>
+            <main>
+                <div class="booking-filters">
+                    <input type="text" placeholder="Current Location" value="Cebu City, Central Visayas, Philippines">
+                    <input type="text" placeholder="Destination">
+                    <input type="date" value="2024-12-13">
+                    <select>
+                        <option value="15">15 seats</option>
+                    </select>
+                    <button>Search</button>
+                </div>
+
+                <div class="booking-list">
+                    <div class="booking-item">
+                        <div class="booking-details">
+                            <div class="vehicle-info">
+                                <h3>Puv-S Class 2: Naga Minglanilla, Tabunok IT Park</h3>
+                                <p>Reg Number: ZPX 5012</p>
+                                <img src="img/lahug-apas.jfif" alt="Bus 1" class="bus-image">
+                            </div>
+                            <div class="time-info">
+                                <h2>9:00 am</h2>
+                            </div>
+                            <div class="booking-actions">
+                                <button class="purpose">Purpose</button>
+                                <a href=""><button class="book-now">Book now!</button></a>
+                            </div>
+                        </div>
+                        <div class="booking-details">
+                            <div class="vehicle-info">
+                                <h3>Puv-S Class 2: Park Mall - IT Park Departure</h3>
+                                <p>Reg Number: TKL 3456</p>
+                                <img src="img/parkmall-ITpark.jfif" alt="Bus 2" class="bus-image">
+                            </div>
+                            <div class="time-info">
+                                <h2>10:30 am</h2>
+                            </div>
+                            <div class="booking-actions">
+                                <button class="purpose">Purpose</button>
+                                <button class="book-now">Book now!</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="booking-item">
+                        <div class="booking-details">
+                            <div class="vehicle-info">
+                                <h3>Puv-S Class 3: SM Seaside, Tabunok IT Park</h3>
+                                <p>Reg Number: ZPX 5012</p>
+                                <img src="img/seaside-IT.jfif" alt="Bus 1" class="bus-image">
+                            </div>
+                            <div class="time-info">
+                                <h2>9:00 am</h2>
+                            </div>
+                            <div class="booking-actions">
+                                <button class="purpose">Purpose</button>
+                                <button class="book-now">Book now!</button>
+                            </div>
+                        </div>
+                        <div class="booking-details">
+                            <div class="vehicle-info">
+                                <h3>Puv-S Class 4: IT Park Departure - colon</h3>
+                                <p>Reg Number: TKL 3456</p>
+                                <img src="img/I.T-colon.jfif" alt="Bus 2" class="bus-image">
+                            </div>
+                            <div class="time-info">
+                                <h2>10:30 am</h2>
+                            </div>
+                            <div class="booking-actions">
+                                <button class="purpose">Purpose</button>
+                                <button class="book-now">Book now!</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
