@@ -29,9 +29,23 @@ CREATE TABLE `applicant` (
   `position` varchar(100) NOT NULL,
   `contact_no` varchar(20) NOT NULL,
   `email` varchar(255) NOT NULL,
-  PRIMARY KEY (`applicant_id`),
-  UNIQUE KEY `email` (`email`)
+  PRIMARY KEY (`applicant_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `assignment_status`
+--
+
+DROP TABLE IF EXISTS `assignment_status`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `assignment_status` (
+  `status_id` int NOT NULL AUTO_INCREMENT,
+  `status_name` varchar(50) NOT NULL,
+  PRIMARY KEY (`status_id`),
+  UNIQUE KEY `status_name` (`status_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,11 +61,27 @@ CREATE TABLE `driver` (
   `age` int NOT NULL,
   `driver_license_no` varchar(50) NOT NULL,
   `contact_no` varchar(20) NOT NULL,
-  `status` enum('Active','On Leave','Retired') DEFAULT 'Active',
+  `status_id` int NOT NULL,
   PRIMARY KEY (`driver_id`),
   UNIQUE KEY `driver_license_no` (`driver_license_no`),
-  CONSTRAINT `driver_chk_1` CHECK ((`age` >= 18))
+  KEY `status_id` (`status_id`),
+  CONSTRAINT `driver_ibfk_1` FOREIGN KEY (`status_id`) REFERENCES `driver_status` (`status_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `driver_status`
+--
+
+DROP TABLE IF EXISTS `driver_status`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `driver_status` (
+  `status_id` int NOT NULL AUTO_INCREMENT,
+  `status_name` varchar(50) NOT NULL,
+  PRIMARY KEY (`status_id`),
+  UNIQUE KEY `status_name` (`status_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,13 +101,30 @@ CREATE TABLE `reservation` (
   `departure_time` time NOT NULL,
   `return_time` time NOT NULL,
   `purpose` text NOT NULL,
-  `status` enum('Pending','Approved','Rejected','Completed') DEFAULT 'Pending',
+  `status_id` int DEFAULT '1',
   PRIMARY KEY (`reservation_id`),
   KEY `applicant_id` (`applicant_id`),
   KEY `vehicle_id` (`vehicle_id`),
-  CONSTRAINT `reservation_ibfk_1` FOREIGN KEY (`applicant_id`) REFERENCES `applicant` (`applicant_id`) ON DELETE CASCADE,
-  CONSTRAINT `reservation_ibfk_2` FOREIGN KEY (`vehicle_id`) REFERENCES `vehicle` (`vehicle_id`) ON DELETE CASCADE
+  KEY `status_id` (`status_id`),
+  CONSTRAINT `reservation_ibfk_1` FOREIGN KEY (`applicant_id`) REFERENCES `applicant` (`applicant_id`),
+  CONSTRAINT `reservation_ibfk_2` FOREIGN KEY (`vehicle_id`) REFERENCES `vehicle` (`vehicle_id`),
+  CONSTRAINT `reservation_ibfk_3` FOREIGN KEY (`status_id`) REFERENCES `reservation_status` (`status_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `reservation_status`
+--
+
+DROP TABLE IF EXISTS `reservation_status`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `reservation_status` (
+  `status_id` int NOT NULL AUTO_INCREMENT,
+  `status_name` varchar(50) NOT NULL,
+  PRIMARY KEY (`status_id`),
+  UNIQUE KEY `status_name` (`status_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -88,14 +135,18 @@ DROP TABLE IF EXISTS `reserve_status_history`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `reserve_status_history` (
-  `status_id` int NOT NULL AUTO_INCREMENT,
+  `history_id` int NOT NULL AUTO_INCREMENT,
   `reservation_id` int NOT NULL,
-  `status` enum('Pending','Approved','Rejected','Completed') NOT NULL,
-  `updated_by` varchar(255) NOT NULL,
+  `status_id` int NOT NULL,
+  `updated_by` int NOT NULL,
   `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`status_id`),
+  PRIMARY KEY (`history_id`),
   KEY `reservation_id` (`reservation_id`),
-  CONSTRAINT `reserve_status_history_ibfk_1` FOREIGN KEY (`reservation_id`) REFERENCES `reservation` (`reservation_id`) ON DELETE CASCADE
+  KEY `status_id` (`status_id`),
+  KEY `updated_by` (`updated_by`),
+  CONSTRAINT `reserve_status_history_ibfk_1` FOREIGN KEY (`reservation_id`) REFERENCES `reservation` (`reservation_id`),
+  CONSTRAINT `reserve_status_history_ibfk_2` FOREIGN KEY (`status_id`) REFERENCES `reservation_status` (`status_id`),
+  CONSTRAINT `reserve_status_history_ibfk_3` FOREIGN KEY (`updated_by`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -119,7 +170,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `username` (`username`),
   KEY `applicant_id` (`applicant_id`),
   CONSTRAINT `users_ibfk_1` FOREIGN KEY (`applicant_id`) REFERENCES `applicant` (`applicant_id`) ON DELETE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -134,9 +185,11 @@ CREATE TABLE `vehicle` (
   `plate_no` varchar(50) NOT NULL,
   `type_of_vehicle` varchar(100) NOT NULL,
   `capacity` int NOT NULL,
-  `status` enum('Available','In Use','Under Maintenance','Decommissioned') DEFAULT 'Available',
+  `status_id` int NOT NULL DEFAULT '1',
   PRIMARY KEY (`vehicle_id`),
-  UNIQUE KEY `plate_no` (`plate_no`)
+  UNIQUE KEY `plate_no` (`plate_no`),
+  KEY `fk_vehicle_status` (`status_id`),
+  CONSTRAINT `fk_vehicle_status` FOREIGN KEY (`status_id`) REFERENCES `vehicle_status` (`status_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -153,12 +206,30 @@ CREATE TABLE `vehicle_assignment` (
   `driver_id` int NOT NULL,
   `assigned_date` date NOT NULL,
   `end_date` date DEFAULT NULL,
+  `status_id` int DEFAULT '1',
   PRIMARY KEY (`assignment_id`),
   KEY `vehicle_id` (`vehicle_id`),
   KEY `driver_id` (`driver_id`),
-  CONSTRAINT `vehicle_assignment_ibfk_1` FOREIGN KEY (`vehicle_id`) REFERENCES `vehicle` (`vehicle_id`) ON DELETE CASCADE,
-  CONSTRAINT `vehicle_assignment_ibfk_2` FOREIGN KEY (`driver_id`) REFERENCES `driver` (`driver_id`) ON DELETE CASCADE
+  KEY `status_id` (`status_id`),
+  CONSTRAINT `vehicle_assignment_ibfk_1` FOREIGN KEY (`vehicle_id`) REFERENCES `vehicle` (`vehicle_id`),
+  CONSTRAINT `vehicle_assignment_ibfk_2` FOREIGN KEY (`driver_id`) REFERENCES `driver` (`driver_id`),
+  CONSTRAINT `vehicle_assignment_ibfk_3` FOREIGN KEY (`status_id`) REFERENCES `assignment_status` (`status_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vehicle_status`
+--
+
+DROP TABLE IF EXISTS `vehicle_status`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vehicle_status` (
+  `status_id` int NOT NULL AUTO_INCREMENT,
+  `status_name` varchar(50) NOT NULL,
+  PRIMARY KEY (`status_id`),
+  UNIQUE KEY `status_name` (`status_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -170,4 +241,4 @@ CREATE TABLE `vehicle_assignment` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-02-20 23:33:01
+-- Dump completed on 2025-02-25  0:05:46
