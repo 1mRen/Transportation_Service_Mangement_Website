@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Registration - Transportation Booking System</title>
+    <link rel="stylesheet" href="css/driver.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            Driver Registration
+        </header>
+        <div class="content">
+            <aside>
+                <div class="user-profile">
+                    <img src="img/Cat-Meme-Stickers-Featured.png" alt="User Icon" class="user-icon">
+                    <div class="user-info">
+                        <h2>Admin</h2>
+                        <p></p>
+                        <a href="profile-pic.html">View profile</a>
+                    </div>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="booking-pages.html">Booking</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="booking-vehicle.html">Vehicles</a></li>
+                        <li><a href="user.html">Users</a></li>
+                        <li><a href="driver.html">Drivers</a></li>
+                        <li><a href="contact.html">Contact-us</a></li>
+                    </ul>
+                </nav>
+                <button class="logout">Log out</button>
+            </aside>
+            <main>
+                <div class="driver-form">
+                    <h2>Register New Driver</h2>
+                    <form id="driverRegistrationForm">
+                        <label for="fullName">Full Name:</label>
+                        <input type="text" id="fullName" name="fullName" required>
+
+                        <label for="age">Age:</label>
+                        <input type="number" id="age" name="age" min="18" required>
+
+                        <label for="licenseNo">Driver License No:</label>
+                        <input type="text" id="licenseNo" name="licenseNo" required>
+
+                        <label for="contactNo">Contact No:</label>
+                        <input type="text" id="contactNo" name="contactNo" required>
+
+                        <label for="status">Status:</label>
+                        <select id="status" name="status">
+                            <option value="Active">Active</option>
+                            <option value="On Leave">On Leave</option>
+                            <option value="Retired">Retired</option>
+                        </select>
+
+                        <button type="submit">Register Driver</button>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
