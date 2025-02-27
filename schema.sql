@@ -34,6 +34,15 @@ CREATE TABLE `applicant` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `applicant`
+--
+
+LOCK TABLES `applicant` WRITE;
+/*!40000 ALTER TABLE `applicant` DISABLE KEYS */;
+/*!40000 ALTER TABLE `applicant` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `assignment_status`
 --
 
@@ -47,6 +56,16 @@ CREATE TABLE `assignment_status` (
   UNIQUE KEY `status_name` (`status_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `assignment_status`
+--
+
+LOCK TABLES `assignment_status` WRITE;
+/*!40000 ALTER TABLE `assignment_status` DISABLE KEYS */;
+INSERT INTO `assignment_status` VALUES (1,'Active'),(3,'Cancelled'),(4,'Completed'),(2,'Pending');
+/*!40000 ALTER TABLE `assignment_status` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `driver`
@@ -70,6 +89,15 @@ CREATE TABLE `driver` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `driver`
+--
+
+LOCK TABLES `driver` WRITE;
+/*!40000 ALTER TABLE `driver` DISABLE KEYS */;
+/*!40000 ALTER TABLE `driver` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `driver_status`
 --
 
@@ -83,6 +111,16 @@ CREATE TABLE `driver_status` (
   UNIQUE KEY `status_name` (`status_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `driver_status`
+--
+
+LOCK TABLES `driver_status` WRITE;
+/*!40000 ALTER TABLE `driver_status` DISABLE KEYS */;
+INSERT INTO `driver_status` VALUES (1,'Active'),(2,'On Leave'),(3,'Retired');
+/*!40000 ALTER TABLE `driver_status` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `reservation`
@@ -113,6 +151,15 @@ CREATE TABLE `reservation` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `reservation`
+--
+
+LOCK TABLES `reservation` WRITE;
+/*!40000 ALTER TABLE `reservation` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reservation` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `reservation_status`
 --
 
@@ -126,6 +173,16 @@ CREATE TABLE `reservation_status` (
   UNIQUE KEY `status_name` (`status_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reservation_status`
+--
+
+LOCK TABLES `reservation_status` WRITE;
+/*!40000 ALTER TABLE `reservation_status` DISABLE KEYS */;
+INSERT INTO `reservation_status` VALUES (2,'Approved'),(4,'Completed'),(1,'Pending'),(3,'Rejected');
+/*!40000 ALTER TABLE `reservation_status` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `reserve_status_history`
@@ -151,6 +208,15 @@ CREATE TABLE `reserve_status_history` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `reserve_status_history`
+--
+
+LOCK TABLES `reserve_status_history` WRITE;
+/*!40000 ALTER TABLE `reserve_status_history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reserve_status_history` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `users`
 --
 
@@ -174,6 +240,16 @@ CREATE TABLE `users` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'Marc','trst@gmail.com','idzty','$2y$10$Zi3VeLlcvXiUxyszzTdrguFsLxSbrjC4MaUGzmz08NyhccQPfikqa','Admin',NULL),(2,'Jai Azi Andade','asar@gmail.com','batoy','$2y$10$wuRyBqVFep31rpCNswQoFuAHrcbOG032Ni86cNJBw.MWhGPLIsUSe','Applicant',NULL),(3,'Marc','test@gmail.com','test123','$2y$10$jP2AT4v2KCvO.Kd7lfMRNeckvHHW2mqF98GEbRXTTyHdnJ7KyAhWi','Applicant',NULL),(4,'test23','test23@gmail.com','test3','$2y$10$IJZMF0QoGb4KvEeNCwJ/C.iaLsuYl4MncGW/XOxOkQG8uemaQKJvC','Applicant',NULL),(6,'test23','test2@gmail.com','test-admin','$2y$10$STirPXRbN8Oi8Pc9p8pSIOdqgpbS3kbZrGMOJ2Sre3rdAO7q6MYDq','Applicant',NULL),(7,'test4','test4@admin.com','test4','$2y$10$khd4Wr6eE64KlmNsLBkO2e2BU5OLoTX6rK5xfMrb2qUfxxBMY8e5S','Applicant',NULL),(8,'test5','test5@admin.org','test5','$2y$10$k7YSFiWWk4QiNiJf.drdT.A.T6KhbiyZ5rzlBLYcMVhO927Uy8mzC','Admin',NULL),(10,'test6','test6@admin.org','test6','$2y$10$zCR8HtOfviNYvGYS0xfoku43jwobuvxCFvGJagLeVfKwbAogvlj0i','Admin',NULL),(11,'test7','test7@gmail.com','test7','$2y$10$EQXT.kDgAn4Nl.fs/gKaqOC3PR6E8feoj0WP.k23JrvLYn744U56e','Applicant',NULL),(12,'jairus','jairusgae@company.com','gae123','$2y$10$fUmlJa9M7NrSnd4IaLiYJOZufQo0S3.12vIlCvgOEb4dpfXSyoeia','Admin',NULL),(13,'momo','momo@admin.org','momo123','$2y$10$OM82Mxv8IRi/3d/I77p6UuAmxpM/TIvgXBrTQz7BjA6VptmchLmPq','Admin',NULL);
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `vehicle`
 --
 
@@ -192,6 +268,15 @@ CREATE TABLE `vehicle` (
   CONSTRAINT `fk_vehicle_status` FOREIGN KEY (`status_id`) REFERENCES `vehicle_status` (`status_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `vehicle`
+--
+
+LOCK TABLES `vehicle` WRITE;
+/*!40000 ALTER TABLE `vehicle` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vehicle` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `vehicle_assignment`
@@ -218,6 +303,15 @@ CREATE TABLE `vehicle_assignment` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `vehicle_assignment`
+--
+
+LOCK TABLES `vehicle_assignment` WRITE;
+/*!40000 ALTER TABLE `vehicle_assignment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vehicle_assignment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `vehicle_status`
 --
 
@@ -231,6 +325,16 @@ CREATE TABLE `vehicle_status` (
   UNIQUE KEY `status_name` (`status_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `vehicle_status`
+--
+
+LOCK TABLES `vehicle_status` WRITE;
+/*!40000 ALTER TABLE `vehicle_status` DISABLE KEYS */;
+INSERT INTO `vehicle_status` VALUES (1,'Available'),(4,'Decommissioned'),(2,'In Use'),(3,'Under Maintenance');
+/*!40000 ALTER TABLE `vehicle_status` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -241,4 +345,4 @@ CREATE TABLE `vehicle_status` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-02-25  0:05:46
+-- Dump completed on 2025-02-27 20:35:16
