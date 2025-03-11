@@ -1,0 +1,132 @@
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('img/bus.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Navbar styling */
+nav {
+  position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    padding: 15px 20px;
+    z-index: 1000;
+}
+
+/* Logo styling */
+.navbar-brand img {
+    width: 150px;
+    
+}
+
+/* Navbar links */
+.navbar-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.navbar-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2em;
+    padding: 10px;
+}
+
+.auth-links {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.navbar-links a:hover, .auth-links a:hover {
+    color: darkcyan;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+/* Button container */
+.button-container {
+    display: flex;
+    gap: 10px;
+}
+
+.button-container button {
+    padding: 10px 15px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button-container button a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Mobile Menu */
+.menu-toggle {
+    display: none;
+    font-size: 2em;
+    color: white;
+    cursor: pointer;
+    
+}
+
+/* Main content styling */
+.main-content {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 50px;
+    border-radius: 10px;
+}
+
+.cta-button {
+    background-color: #007BFF;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+    .navbar-links {
+        display: none;
+        flex-direction: column;
+        background: rgba(0, 0, 0, 0.9);
+        position: absolute;
+        top: 60px;
+        right: 0;
+        width: 100%;
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    .navbar-links.active {
+        display: flex;
+    }
+
+    .menu-toggle {
+        display: flex;
+        justify-content: flex-end;
+        
+    }
+}
