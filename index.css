@@ -1,7 +1,7 @@
 /* General body styling */
 body {
     font-family: Arial, sans-serif;
-    background-image: url('img/bus.jpg');
+    background-image: url("../img/bus.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
