@@ -1,0 +1,587 @@
+/* Main Layout Styles */
+:root {
+    --primary-color: #0d6efd;
+    --secondary-color: #6c757d;
+    --success-color: #198754;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --sidebar-bg: #343a40;
+    --sidebar-width: 250px;
+    --header-height: 60px;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+    min-height: 100vh;
+}
+
+/* Sidebar Styles */
+#sidebar {
+    width: var(--sidebar-width);
+    background: var(--sidebar-bg);
+    color: #fff;
+    transition: all 0.3s;
+    position: fixed;
+    height: 100vh;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+}
+
+#sidebar.active {
+    margin-left: calc(-1 * var(--sidebar-width));
+}
+
+.sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-info {
+    text-align: center;
+}
+
+.user-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 10px;
+}
+
+.user-name {
+    font-size: 18px;
+    margin: 5px 0;
+    color: #fff;
+}
+
+.user-role {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 10px;
+}
+
+.profile-link {
+    color: var(--primary-color);
+    font-size: 13px;
+    text-decoration: underline;
+}
+
+.profile-link:hover {
+    color: #fff;
+}
+
+.sidebar-nav {
+    flex: 1;
+    padding: 20px 0;
+}
+
+.nav-list {
+    padding: 0;
+    list-style: none;
+}
+
+.nav-item {
+    margin-bottom: 5px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: all 0.3s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover, .nav-link.active {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-left: 3px solid var(--primary-color);
+}
+
+.nav-link i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+.sidebar-footer {
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logout-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: var(--danger-color);
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    transition: all 0.3s;
+    text-decoration: none;
+}
+
+.logout-btn:hover {
+    background-color: var(--primary-color);
+}
+
+/* Main Content Styles */
+#content {
+    width: calc(100% - var(--sidebar-width));
+    min-height: 100vh;
+    margin-left: var(--sidebar-width);
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+}
+
+#content.active {
+    width: 100%;
+    margin-left: 0;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 0 15px;
+    height: var(--header-height);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar-header {
+    display: flex;
+    align-items: center;
+}
+
+.btn-toggle {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    color: var(--secondary-color);
+    margin-right: 15px;
+}
+
+.navbar-title {
+    margin: 0;
+    font-size: 20px;
+    color: var(--secondary-color);
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.notification-btn {
+    position: relative;
+    color: var(--secondary-color);
+    font-size: 18px;
+    margin-left: 15px;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: var(--danger-color);
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Container Styles */
+.container-fluid {
+    padding: 20px;
+    flex: 1;
+}
+
+/* Announcement Banner */
+.announcement-banner {
+    background-color: var(--warning-color);
+    padding: 12px 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    color: #333;
+}
+
+.announcement-banner i {
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+/* Action Cards */
+.action-cards {
+    margin-bottom: 30px;
+}
+
+.action-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    padding: 25px;
+    text-align: center;
+    transition: all 0.3s;
+    height: 100%;
+    margin-bottom: 20px;
+}
+
+.action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-icon {
+    margin-bottom: 15px;
+    width: 60px;
+    height: 60px;
+    background: rgba(13, 110, 253, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card-icon i {
+    font-size: 24px;
+    color: var(--primary-color);
+}
+
+.book-vehicle .card-icon {
+    background: rgba(25, 135, 84, 0.1);
+}
+
+.book-vehicle .card-icon i {
+    color: var(--success-color);
+}
+
+.my-bookings .card-icon {
+    background: rgba(13, 110, 253, 0.1);  
+}
+
+.my-bookings .card-icon i {
+    color: var(--primary-color);
+}
+
+.cancel-booking .card-icon {
+    background: rgba(220, 53, 69, 0.1);
+}
+
+.cancel-booking .card-icon i {
+    color: var(--danger-color);
+}
+
+.card-title {
+    margin: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.card-text {
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.card-btn {
+    display: inline-block;
+    padding: 8px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: all 0.3s;
+    font-size: 14px;
+}
+
+.book-vehicle .card-btn {
+    background-color: var(--success-color);
+}
+
+.my-bookings .card-btn {
+    background-color: var(--primary-color);
+}
+
+.cancel-booking .card-btn {
+    background-color: var(--danger-color);
+}
+
+.card-btn:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+    color: white;
+}
+
+/* Table Section */
+.table-section {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.section-title {
+    margin: 0;
+    font-size: 20px;
+    color: #333;
+}
+
+.section-actions {
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.refresh-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+}
+
+.vehicle-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.vehicle-table th {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.vehicle-table th:first-child {
+    border-top-left-radius: 5px;
+}
+
+.vehicle-table th:last-child {
+    border-top-right-radius: 5px;
+}
+
+.vehicle-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.vehicle-table tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.status {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    color: white;
+}
+
+.available {
+    background-color: var(--success-color);
+}
+
+.maintenance {
+    background-color: var(--danger-color);
+}
+
+.action-btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 12px;
+    transition: all 0.3s;
+}
+
+.action-btn:hover {
+    opacity: 0.9;
+    color: white;
+}
+
+.action-btn.disabled {
+    background-color: var(--secondary-color);
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.page-item {
+    margin: 0 3px;
+}
+
+.page-link {
+    display: block;
+    padding: 8px 12px;
+    color: var(--primary-color);
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.page-item.active .page-link {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.page-item.disabled .page-link {
+    color: #ccc;
+    pointer-events: none;
+}
+
+/* Footer */
+.footer {
+    background-color: #fff;
+    border-top: 1px solid #eee;
+    padding: 15px;
+    text-align: center;
+    color: var(--secondary-color);
+    font-size: 14px;
+}
+
+/* Responsive Styles */
+@media (max-width: 991px) {
+    #sidebar {
+        margin-left: calc(-1 * var(--sidebar-width));
+    }
+    
+    #sidebar.active {
+        margin-left: 0;
+    }
+    
+    #content {
+        width: 100%;
+        margin-left: 0;
+    }
+    
+    #content.active {
+        margin-left: var(--sidebar-width);
+        width: calc(100% - var(--sidebar-width));
+    }
+}
+
+@media (max-width: 767px) {
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .section-actions {
+        margin-top: 15px;
+        width: 100%;
+    }
+    
+    .search-input {
+        flex: 1;
+    }
+    
+    #content.active {
+        margin-left: 0;
+        width: 100%;
+    }
+    
+    #sidebar.active {
+        width: 100%;
+        z-index: 1000;
+    }
+    
+    .navbar-title {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .card-title {
+        font-size: 16px;
+    }
+    
+    .card-text {
+        font-size: 13px;
+    }
+    
+    .table-section {
+        padding: 15px 10px;
+    }
+    
+    .section-title {
+        font-size: 18px;
+    }
+    
+    .section-actions {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .search-input {
+        width: 100%;
+        margin-bottom: 10px;
+        margin-right: 0;
+    }
+    
+    .refresh-btn {
+        width: 100%;
+    }
+}
