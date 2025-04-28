@@ -101,7 +101,7 @@ class Layout {
                         
                         <!-- Regular menu items for all users -->
                         <li class="nav-item">
-                            <a href="/vehicles.php" class="nav-link <?php echo ($this->activeMenu === 'vehicles') ? 'active' : ''; ?>">
+                            <a href="/src/views/vehicles/vehicles.php" class="nav-link <?php echo ($this->activeMenu === 'vehicles') ? 'active' : ''; ?>">
                                 <i class="fa fa-bus"></i>
                                 <span>Vehicles</span>
                             </a>
