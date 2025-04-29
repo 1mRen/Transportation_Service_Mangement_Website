@@ -33,7 +33,7 @@ CREATE TABLE `applicant` (
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `user_id` int DEFAULT NULL,
   PRIMARY KEY (`applicant_id`),
-  KEY `fk_user` (`user_id`),
+  KEY `idx_applicant_user_id` (`user_id`),
   CONSTRAINT `fk_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -136,6 +136,7 @@ CREATE TABLE `driver` (
   `driver_license_no` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `contact_no` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `status_id` int NOT NULL,
+  `profile_pic_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'URL path to driver profile picture',
   PRIMARY KEY (`driver_id`),
   UNIQUE KEY `driver_license_no` (`driver_license_no`),
   KEY `status_id` (`status_id`),
@@ -224,6 +225,7 @@ CREATE TABLE `reservation` (
   KEY `applicant_id` (`applicant_id`),
   KEY `vehicle_id` (`vehicle_id`),
   KEY `status_id` (`status_id`),
+  KEY `idx_reservation_applicant_id` (`applicant_id`),
   CONSTRAINT `reservation_ibfk_1` FOREIGN KEY (`applicant_id`) REFERENCES `applicant` (`applicant_id`),
   CONSTRAINT `reservation_ibfk_2` FOREIGN KEY (`vehicle_id`) REFERENCES `vehicle` (`vehicle_id`),
   CONSTRAINT `reservation_ibfk_3` FOREIGN KEY (`status_id`) REFERENCES `reservation_status` (`status_id`)
@@ -237,6 +239,40 @@ CREATE TABLE `reservation` (
 LOCK TABLES `reservation` WRITE;
 /*!40000 ALTER TABLE `reservation` DISABLE KEYS */;
 /*!40000 ALTER TABLE `reservation` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `reservation_documents`
+--
+
+DROP TABLE IF EXISTS `reservation_documents`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `reservation_documents` (
+  `document_id` int NOT NULL AUTO_INCREMENT,
+  `reservation_id` int NOT NULL,
+  `document_name` varchar(255) NOT NULL,
+  `document_type` varchar(100) NOT NULL,
+  `file_path` varchar(255) NOT NULL,
+  `file_size` int NOT NULL,
+  `uploaded_by` int NOT NULL,
+  `upload_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `notes` text,
+  PRIMARY KEY (`document_id`),
+  KEY `uploaded_by` (`uploaded_by`),
+  KEY `idx_reservation_documents` (`reservation_id`),
+  CONSTRAINT `reservation_documents_ibfk_1` FOREIGN KEY (`reservation_id`) REFERENCES `reservation` (`reservation_id`) ON DELETE CASCADE,
+  CONSTRAINT `reservation_documents_ibfk_2` FOREIGN KEY (`uploaded_by`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reservation_documents`
+--
+
+LOCK TABLES `reservation_documents` WRITE;
+/*!40000 ALTER TABLE `reservation_documents` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reservation_documents` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -340,14 +376,12 @@ CREATE TABLE `users` (
   `username` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password_hash` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `role` enum('Admin','Applicant') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Applicant',
-  `applicant_id` int DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `profile_pic_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'URL path to user profile picture',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `email` (`email`),
-  UNIQUE KEY `username` (`username`),
-  KEY `applicant_id` (`applicant_id`),
-  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`applicant_id`) REFERENCES `applicant` (`applicant_id`) ON DELETE SET NULL
+  UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -357,7 +391,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Marc Lawrence Magadan','lawrence@gmail.com','lawrence','$2y$12$SmjMR/D8jDF6mttEQ/KoIO3mwQpUSTtvI3cy9El18PaMPkkCcBFoe','Applicant',NULL,'2025-03-13 09:21:40','2025-03-13 09:21:40'),(2,'testing-admin','admin@gmail.com','test-admin','$2y$12$l5pARGaxOoiQz6q9/.j9y.Z87Cb26PVM.hSX99NZGLU8Z4jcHuBrq','Admin',NULL,'2025-03-13 09:47:27','2025-03-13 09:47:27'),(3,'new','new@email.com','new1','$2y$12$.GAkRTyseYNGqSAJWFIGB.cowhgl1TXelc0rKRdrH2jUhy0jHgWCm','Applicant',NULL,'2025-03-18 19:22:38','2025-03-18 19:22:38'),(4,'Marc','test2@email.com','new2','$2y$12$WFJRPfCvEphEO8vQm.x/2eoH66N3pOdnomWb7bbPuPr6D8tgPW/ai','Applicant',NULL,'2025-03-18 23:28:49','2025-03-18 23:28:49'),(5,'Marc Lawrence Magadan','madmin@email.com','marc-admin','$2y$12$kzAJWCHpHua460izle5lfOuntqjCeCuuRFAyIilhMMgzQ7Cw7HrcG','Admin',NULL,'2025-04-03 05:52:59','2025-04-03 05:52:59'),(6,'testing100','testing100@admin.org','admin','$2y$10$stdJ.Ys4BnMJM2P.hVokU.6CzJoYkDo27Jf9SR7SSFRa9ZA8g5gru','Admin',NULL,'2025-04-08 08:50:36','2025-04-08 08:49:42'),(7,'user testing','usertest@gmail.com','test-user1','$2y$10$bCxxWSdLwU4ObiEGbu.DbebMRNZZsNrG48gaR5An55YQWr7vp6n2W','Applicant',NULL,'2025-04-08 08:50:36','2025-04-08 08:49:42'),(8,'User Testing2','usertest2@gmail.com','user-test2','$2y$10$aQrYg1xqcUJDM3Bx5VpmieB4HXikTRCeAZxLhiH59XZyqi/2LvXyq','Applicant',NULL,'2025-04-08 08:52:04','2025-04-08 08:52:04');
+INSERT INTO `users` VALUES (1,'Marc Lawrence Magadan','lawrence@gmail.com','lawrence','$2y$12$SmjMR/D8jDF6mttEQ/KoIO3mwQpUSTtvI3cy9El18PaMPkkCcBFoe','Applicant','2025-03-13 09:21:40','2025-03-13 09:21:40',NULL),(2,'testing-admin','admin@gmail.com','test-admin','$2y$12$l5pARGaxOoiQz6q9/.j9y.Z87Cb26PVM.hSX99NZGLU8Z4jcHuBrq','Admin','2025-03-13 09:47:27','2025-03-13 09:47:27',NULL),(3,'new','new@email.com','new1','$2y$12$.GAkRTyseYNGqSAJWFIGB.cowhgl1TXelc0rKRdrH2jUhy0jHgWCm','Applicant','2025-03-18 19:22:38','2025-03-18 19:22:38',NULL),(4,'Marc','test2@email.com','new2','$2y$12$WFJRPfCvEphEO8vQm.x/2eoH66N3pOdnomWb7bbPuPr6D8tgPW/ai','Applicant','2025-03-18 23:28:49','2025-03-18 23:28:49',NULL),(5,'Marc Lawrence Magadan','madmin@email.com','marc-admin','$2y$12$kzAJWCHpHua460izle5lfOuntqjCeCuuRFAyIilhMMgzQ7Cw7HrcG','Admin','2025-04-03 05:52:59','2025-04-03 05:52:59',NULL),(6,'testing100','testing100@admin.org','admin','$2y$10$stdJ.Ys4BnMJM2P.hVokU.6CzJoYkDo27Jf9SR7SSFRa9ZA8g5gru','Admin','2025-04-08 08:50:36','2025-04-08 08:49:42',NULL),(7,'user testing','usertest@gmail.com','test-user1','$2y$10$bCxxWSdLwU4ObiEGbu.DbebMRNZZsNrG48gaR5An55YQWr7vp6n2W','Applicant','2025-04-08 08:50:36','2025-04-08 08:49:42',NULL),(8,'User Testing2','usertest2@gmail.com','user-test2','$2y$10$aQrYg1xqcUJDM3Bx5VpmieB4HXikTRCeAZxLhiH59XZyqi/2LvXyq','Applicant','2025-04-08 08:52:04','2025-04-08 08:52:04',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -378,7 +412,7 @@ CREATE TABLE `vehicle` (
   UNIQUE KEY `plate_no` (`plate_no`),
   KEY `fk_vehicle_status` (`status_id`),
   CONSTRAINT `fk_vehicle_status` FOREIGN KEY (`status_id`) REFERENCES `vehicle_status` (`status_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -387,6 +421,7 @@ CREATE TABLE `vehicle` (
 
 LOCK TABLES `vehicle` WRITE;
 /*!40000 ALTER TABLE `vehicle` DISABLE KEYS */;
+INSERT INTO `vehicle` VALUES (1,'VAN 3190','Van',12,2),(2,'TEST 3999','Bus',55,3);
 /*!40000 ALTER TABLE `vehicle` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -457,4 +492,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-08 19:34:44
+-- Dump completed on 2025-04-29 11:12:18

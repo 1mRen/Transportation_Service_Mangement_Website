@@ -1,5 +1,5 @@
 <?php
-// layout.php - Your main layout file
+// layout.php
 
 class Layout {
     private $pageTitle;
@@ -95,6 +95,13 @@ class Layout {
                                 <a href="/src/views/usermanagement/listUsers.php" class="nav-link <?php echo ($this->activeMenu === 'users') ? 'active' : ''; ?>">
                                     <i class="fa fa-users"></i>
                                     <span>User Management</span>
+                                </a>
+                            </li>
+                            <!-- Add Drivers Management -->
+                            <li class="nav-item">
+                                <a href="/src/views/drivers/index.php" class="nav-link <?php echo ($this->activeMenu === 'drivers') ? 'active' : ''; ?>">
+                                    <i class="fa fa-id-card"></i>
+                                    <span>Drivers</span>
                                 </a>
                             </li>
                         <?php endif; ?>

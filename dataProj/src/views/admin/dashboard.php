@@ -177,8 +177,8 @@ $layout->renderHeader();
                 <h5 class="card-title">Quick Actions</h5>
                 <div class="btn-group" role="group">
                     <a href="/src/views/usermanagement/createUser.php" class="btn btn-primary"><i class="fa fa-user-plus"></i> Add User</a>
-                    <a href="/add-vehicle.php" class="btn btn-success"><i class="fa fa-plus-circle"></i> Add Vehicle</a>
-                    <a href="/add-driver.php" class="btn btn-info"><i class="fa fa-id-card"></i> Add Driver</a>
+                    <a href="/src/views/vehicles/create.php" class="btn btn-success"><i class="fa fa-plus-circle"></i> Add Vehicle</a>
+                    <a href="/src/views/drivers/create.php" class="btn btn-info"><i class="fa fa-id-card"></i> Add Driver</a>
                     <a href="/announcements.php" class="btn btn-warning"><i class="fa fa-bullhorn"></i> Post Announcement</a>
                     <a href="/reports.php" class="btn btn-secondary"><i class="fa fa-chart-bar"></i> Generate Reports</a>
                 </div>
@@ -247,9 +247,9 @@ $layout->renderHeader();
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="mb-0">Vehicle Fleet Status</h5>
-        <a href="/vehicles.php" class="btn btn-sm btn-primary">Manage Vehicles</a>
+        <a href="/src/views/vehicles/vehicles.php" class="btn btn-sm btn-primary">Manage Vehicles</a>
     </div>
-    <div class="card-body">
+    <div class="card-body"> 
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
@@ -283,9 +283,9 @@ $layout->renderHeader();
                             <td><?php echo $vehicle['driver_name'] ?? 'Not Assigned'; ?></td>
                             <td>
                                 <div class="btn-group">
-                                    <a href="/edit-vehicle.php?id=<?php echo $vehicle['vehicle_id']; ?>" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
-                                    <a href="/assign-driver.php?vehicle_id=<?php echo $vehicle['vehicle_id']; ?>" class="btn btn-sm btn-info"><i class="fa fa-user-plus"></i></a>
-                                    <a href="/vehicle-status.php?id=<?php echo $vehicle['vehicle_id']; ?>" class="btn btn-sm btn-warning"><i class="fa fa-cog"></i></a>
+                                    <a href="/src/views/vehicles/edit.php?id=<?php echo $vehicle['vehicle_id']; ?>" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
+                                    <a href="/src/views/vehicles/assign.php?vehicle_id=<?php echo $vehicle['vehicle_id']; ?>" class="btn btn-sm btn-info"><i class="fa fa-user-plus"></i></a>
+                                    <a href="/src/views/vehicles/status.php?id=<?php echo $vehicle['vehicle_id']; ?>" class="btn btn-sm btn-warning"><i class="fa fa-cog"></i></a>
                                 </div>
                             </td>
                         </tr>
