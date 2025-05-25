@@ -69,12 +69,12 @@ $layout->renderHeader();
                 <div class="card-body">
                     <div class="text-center mb-4">
                         <?php if (!empty($driver['profile_pic_url'])): ?>
-                            <img src="../../public/<?= $driver['profile_pic_url'] ?>" 
+                            <img src="/public/<?= $driver['profile_pic_url'] ?>" 
                                  alt="<?= $driver['full_name'] ?>" 
                                  class="img-fluid rounded-circle" 
                                  style="max-height: 200px;">
                         <?php else: ?>
-                            <img src="../../public/assets/img/default-user.png" 
+                            <img src="/public/assets/img/default-user.png" 
                                  alt="Default Profile" 
                                  class="img-fluid rounded-circle" 
                                  style="max-height: 200px;">

@@ -15,7 +15,7 @@ class ReservationController {
     const VEHICLE_AVAILABLE = 1;
 
     public function __construct() {
-        $this->db = new Database();
+        $this->db = require __DIR__ . '/../config/database.php';
     }
 
     /**
@@ -298,8 +298,7 @@ class ReservationController {
      * @return int|bool New reservation ID or false on failure
      * @throws Exception On database error or unauthorized access
      */
-    public function createReservation($applicantId, $vehicleId, $dateOfUse, $departureArea, $destination, 
-                                     $departureTime, $returnTime, $purpose) {
+    public function createReservation($applicantId, $vehicleId, $dateOfUse, $departureArea, $destination, $departureTime, $returnTime, $purpose, $statusId = 1) {
         if (!isset($_SESSION['user_id'])) {
             header('Location: /src/views/auth/signin.php');
             exit;
@@ -341,9 +340,6 @@ class ReservationController {
                 throw new Exception("Selected vehicle is not available on the requested date");
             }
             $vehicleStmt->close();
-            
-            // Default status is 1 (Pending)
-            $statusId = self::STATUS_PENDING;
             
             // Insert reservation
             $query = "INSERT INTO reservation (

@@ -62,17 +62,16 @@ class UserManagementController
     public function update($user_id, $data)
     {
         $stmt = $this->conn->prepare("
-            UPDATE users SET name = ?, email = ?, username = ?, role = ?, applicant_id = ?, updated_at = NOW()
+            UPDATE users SET name = ?, email = ?, username = ?, role = ?, updated_at = NOW()
             WHERE user_id = ?
         ");
 
         $stmt->bind_param(
-            "ssssii",
+            "ssssi",
             $data['name'],
             $data['email'],
             $data['username'],
             $data['role'],
-            $data['applicant_id'],
             $user_id
         );
 
@@ -84,6 +83,53 @@ class UserManagementController
     {
         $stmt = $this->conn->prepare("DELETE FROM users WHERE user_id = ?");
         $stmt->bind_param("i", $user_id);
+        return $stmt->execute();
+    }
+
+    /**
+     * Upload user profile picture
+     * 
+     * @param array $file File data from $_FILES
+     * @return string|false Path to uploaded file or false on failure
+     */
+    public function uploadProfilePicture($file) {
+        $targetDir = __DIR__ . "/../../public/assets/img/profile-pictures/";
+        
+        // Create directory if it doesn't exist
+        if (!file_exists($targetDir)) {
+            mkdir($targetDir, 0755, true);
+        }
+        
+        $fileExt = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        $allowedTypes = ['jpg', 'jpeg', 'png', 'webp'];
+        
+        // Validate file type
+        if (!in_array($fileExt, $allowedTypes)) {
+            return false;
+        }
+        
+        // Generate unique filename
+        $fileName = uniqid('user_') . '.' . $fileExt;
+        $targetFile = $targetDir . $fileName;
+        
+        // Move uploaded file
+        if (move_uploaded_file($file['tmp_name'], $targetFile)) {
+            return 'assets/img/profile-pictures/' . $fileName;
+        }
+        
+        return false;
+    }
+
+    /**
+     * Update user profile picture
+     * 
+     * @param int $userId User ID
+     * @param string $profilePicUrl Profile picture URL
+     * @return bool Success status
+     */
+    public function updateProfilePicture($userId, $profilePicUrl) {
+        $stmt = $this->conn->prepare("UPDATE users SET profile_pic_url = ? WHERE user_id = ?");
+        $stmt->bind_param("si", $profilePicUrl, $userId);
         return $stmt->execute();
     }
 }

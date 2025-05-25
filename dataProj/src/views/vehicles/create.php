@@ -119,8 +119,9 @@ $layout->renderHeader();
                                 id="type_of_vehicle" name="type_of_vehicle" required>
                                 <option value="">Select Type</option>
                                 <option value="Bus" <?php echo (isset($_POST['type_of_vehicle']) && $_POST['type_of_vehicle'] === 'Bus') ? 'selected' : ''; ?>>Bus</option>
-                                <option value="Van" <?php echo (isset($_POST['type_of_vehicle']) && $_POST['type_of_vehicle'] === 'Van') ? 'selected' : ''; ?>>Van</option>
-                                <option value="Car" <?php echo (isset($_POST['type_of_vehicle']) && $_POST['type_of_vehicle'] === 'Car') ? 'selected' : ''; ?>>Car</option>
+                                <option value="Coaster" <?php echo (isset($_POST['type_of_vehicle']) && $_POST['type_of_vehicle'] === 'Coaster') ? 'selected' : ''; ?>>Coaster</option>
+                                <option value="Canter" <?php echo (isset($_POST['type_of_vehicle']) && $_POST['type_of_vehicle'] === 'Canter') ? 'selected' : ''; ?>>Canter</option>
+                                <option value="Private Vehicle" <?php echo (isset($_POST['type_of_vehicle']) && $_POST['type_of_vehicle'] === 'Private Vehicle') ? 'selected' : ''; ?>>Private Vehicle</option>
                             </select>
                             <?php if (isset($errors['type_of_vehicle'])): ?>
                                 <div class="invalid-feedback"><?php echo htmlspecialchars($errors['type_of_vehicle']); ?></div>

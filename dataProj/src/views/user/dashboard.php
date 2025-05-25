@@ -30,27 +30,26 @@ $conn = require_once __DIR__ . '/../../config/database.php';
 if (!$conn) {
     die("Database connection failed.");
 }
-// Get user's bookings (reservations)
-$bookingsQuery = "SELECT r.reservation_id, r.date_of_use, r.departure_area, r.destination, 
-                r.departure_time, r.return_time, r.purpose, 
-                rs.status_name as reservation_status,
-                v.plate_no, v.type_of_vehicle
+// Get user's reservations
+$reservationsQuery = "SELECT r.reservation_id, r.date_of_use, r.departure_area, r.destination,
+                     r.departure_time, r.return_time, r.purpose, r.status_id,
+                     v.plate_no, v.type_of_vehicle, rs.status_name as reservation_status
                 FROM reservation r
+                     LEFT JOIN vehicle v ON r.vehicle_id = v.vehicle_id
                 JOIN reservation_status rs ON r.status_id = rs.status_id
-                JOIN vehicle v ON r.vehicle_id = v.vehicle_id
                 JOIN applicant a ON r.applicant_id = a.applicant_id
                 WHERE a.user_id = ?
                 ORDER BY r.date_of_use DESC
                 LIMIT 5";
 
-$bookingsStmt = mysqli_prepare($conn, $bookingsQuery);
-mysqli_stmt_bind_param($bookingsStmt, "i", $userId);
-mysqli_stmt_execute($bookingsStmt);
-$bookingsResult = mysqli_stmt_get_result($bookingsStmt);
-$bookings = [];
+$reservationsStmt = mysqli_prepare($conn, $reservationsQuery);
+mysqli_stmt_bind_param($reservationsStmt, "i", $userId);
+mysqli_stmt_execute($reservationsStmt);
+$reservationsResult = mysqli_stmt_get_result($reservationsStmt);
+$reservations = [];
 
-while ($row = mysqli_fetch_assoc($bookingsResult)) {
-    $bookings[] = $row;
+while ($row = mysqli_fetch_assoc($reservationsResult)) {
+    $reservations[] = $row;
 }
 
 // Get available vehicles
@@ -74,6 +73,7 @@ while ($row = mysqli_fetch_assoc($vehiclesResult)) {
 $layout->renderHeader();
 ?>
 
+
 <!-- Action Cards -->
 <div class="row action-cards mb-4">
     <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
@@ -87,38 +87,39 @@ $layout->renderHeader();
         </div>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
-        <div class="action-card my-bookings">
+        <div class="action-card my-reservations">
             <div class="card-icon">
-                <i class="fa fa-clipboard-list"></i>
+                <i class="fa fa-calendar-check"></i>
             </div>
-            <h4 class="card-title">My Bookings</h4>
-            <p class="card-text">Check the status of your current bookings.</p>
-            <a href="/my-bookings.php" class="card-btn">View Bookings</a>
+            <div class="card-content">
+                <h4 class="card-title">My Reservations</h4>
+                <p class="card-text">Check the status of your current reservations.</p>
+                <a href="/src/views/reservations/my-reservations.php" class="card-btn">View Reservations</a>
+            </div>
         </div>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
-        <div class="action-card cancel-booking">
+        <div class="action-card cancel-reservation">
             <div class="card-icon">
-                <i class="fa fa-times"></i>
+                <i class="fa fa-calendar-times"></i>
             </div>
-            <h4 class="card-title">Cancel Booking</h4>
-            <p class="card-text">Need to cancel? Manage your reservations here.</p>
-            <a href="/manage-bookings.php" class="card-btn">Cancel</a>
+            <div class="card-content">
+                <h4 class="card-title">Cancel Reservation</h4>
+                <p class="card-text">Cancel or modify your existing reservations.</p>
+                <a href="/src/views/reservations/my-reservations.php" class="card-btn">Cancel</a>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- My Recent Bookings Section -->
-<div class="table-section mb-4">
+<!-- My Recent Reservations Section -->
+<div class="recent-reservations">
     <div class="section-header">
-        <h2 class="section-title">My Recent Bookings</h2>
-        <div class="section-actions">
-            <a href="/my-bookings.php" class="btn btn-sm btn-primary">View All</a>
-        </div>
+        <h2 class="section-title">My Recent Reservations</h2>
+        <a href="/src/views/reservations/my-reservations.php" class="btn btn-sm btn-primary">View All</a>
     </div>
-    
     <div class="table-responsive">
-        <table class="table booking-table">
+        <table class="table reservation-table">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -131,27 +132,27 @@ $layout->renderHeader();
                 </tr>
             </thead>
             <tbody>
-                <?php if (empty($bookings)): ?>
+                <?php if (empty($reservations)): ?>
                 <tr>
-                    <td colspan="7" class="text-center">No bookings found.</td>
+                        <td colspan="7" class="text-center">No reservations found.</td>
                 </tr>
                 <?php else: ?>
-                    <?php foreach ($bookings as $booking): ?>
+                    <?php foreach ($reservations as $reservation): ?>
                     <tr>
-                        <td><?php echo $booking['reservation_id']; ?></td>
-                        <td><?php echo date('M d, Y', strtotime($booking['date_of_use'])); ?></td>
-                        <td><?php echo $booking['type_of_vehicle'] . ' (' . $booking['plate_no'] . ')'; ?></td>
-                        <td><?php echo $booking['destination']; ?></td>
-                        <td><?php echo date('h:i A', strtotime($booking['departure_time'])); ?></td>
+                            <td><?php echo $reservation['reservation_id']; ?></td>
+                            <td><?php echo date('M d, Y', strtotime($reservation['date_of_use'])); ?></td>
+                            <td><?php echo $reservation['type_of_vehicle'] . ' (' . $reservation['plate_no'] . ')'; ?></td>
+                            <td><?php echo $reservation['destination']; ?></td>
+                            <td><?php echo date('h:i A', strtotime($reservation['departure_time'])); ?></td>
                         <td>
-                            <span class="status <?php echo strtolower($booking['reservation_status']); ?>">
-                                <?php echo $booking['reservation_status']; ?>
+                                <span class="status <?php echo strtolower($reservation['reservation_status']); ?>">
+                                    <?php echo $reservation['reservation_status']; ?>
                             </span>
                         </td>
                         <td>
-                            <a href="/view-booking.php?id=<?php echo $booking['reservation_id']; ?>" class="btn btn-sm btn-info">View</a>
-                            <?php if ($booking['reservation_status'] == 'Pending'): ?>
-                            <a href="/cancel-booking.php?id=<?php echo $booking['reservation_id']; ?>" class="btn btn-sm btn-danger">Cancel</a>
+                                <a href="/src/views/reservations/view.php?id=<?php echo $reservation['reservation_id']; ?>" class="btn btn-sm btn-info">View</a>
+                                <?php if ($reservation['reservation_status'] == 'Pending'): ?>
+                                    <a href="/src/views/reservations/cancel.php?id=<?php echo $reservation['reservation_id']; ?>" class="btn btn-sm btn-danger">Cancel</a>
                             <?php endif; ?>
                         </td>
                     </tr>
@@ -198,7 +199,7 @@ $layout->renderHeader();
                         <td><?php echo $vehicle['capacity']; ?> passengers</td>
                         <td><span class="status available">Available</span></td>
                         <td>
-                            <a href="/book-vehicle.php?id=<?php echo $vehicle['vehicle_id']; ?>" class="btn btn-sm btn-primary">Book</a>
+                            <a href="/src/views/reservations/create.php?id=<?php echo $vehicle['vehicle_id']; ?>" class="btn btn-sm btn-primary">Book</a>
                         </td>
                     </tr>
                     <?php endforeach; ?>

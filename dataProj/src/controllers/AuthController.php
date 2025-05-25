@@ -164,6 +164,17 @@ public function processSignup() {
   
   try {
       if ($stmt->execute()) {
+          // Get the new user's ID
+          $newUserId = $this->conn->insert_id;
+          
+          // Notify admins about the new user
+          require_once __DIR__ . '/NotificationController.php';
+          $notificationController = new NotificationController();
+          
+          $title = "New User Registration";
+          $message = "A new user has registered: {$name} ({$username})";
+          $notificationController->notifyAdmins($title, $message, 'info');
+          
           echo "Signup successful. Please log in.";
           // Redirect to login page
           header("Location: /src/views/auth/signin.php");
@@ -174,8 +185,8 @@ public function processSignup() {
           die("Email already taken.");
       } else {
           die("An unexpected error occurred. Please try again later.");
-        }
-   }
+      }
   }
+}
 }
 ?>

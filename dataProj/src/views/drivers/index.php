@@ -130,12 +130,11 @@ $layout->renderHeader();
                             <td><?= $driver['driver_id'] ?></td>
                             <td>
                                 <?php if (!empty($driver['profile_pic_url'])): ?>
-                                    <img src="../../public/<?= $driver['profile_pic_url'] ?>" 
-                                         alt="<?= $driver['full_name'] ?>" 
-                                         width="30" height="30" 
-                                         class="rounded-circle me-2">
+                                    <img src="/public/<?= $driver['profile_pic_url'] ?>" alt="<?= htmlspecialchars($driver['full_name']) ?>" style="width:32px;height:32px;border-radius:50%;object-fit:cover;margin-right:6px;">
+                                <?php else: ?>
+                                    <img src="/public/assets/img/default-user.png" alt="Default Profile" style="width:32px;height:32px;border-radius:50%;object-fit:cover;margin-right:6px;">
                                 <?php endif; ?>
-                                <?= $driver['full_name'] ?>
+                                <?= htmlspecialchars($driver['full_name']) ?>
                             </td>
                             <td><?= $driver['age'] ?></td>
                             <td><?= $driver['driver_license_no'] ?></td>

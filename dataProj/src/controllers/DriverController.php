@@ -38,7 +38,7 @@ class DriverController {
         $query = "SELECT d.*, ds.status_name 
                  FROM driver d
                  JOIN driver_status ds ON d.status_id = ds.status_id
-                 ORDER BY d.full_name";
+                 ORDER BY d.driver_id DESC";
                  
         $result = $this->db->query($query);
         $drivers = [];
@@ -316,7 +316,7 @@ class DriverController {
      * @return string|false Path to uploaded file or false on failure
      */
     public function uploadProfilePicture($file) {
-        $targetDir = __DIR__ . "/../../public/assets/img/drivers/";
+        $targetDir = __DIR__ . "/../../public/uploads/";
         
         // Create directory if it doesn't exist
         if (!file_exists($targetDir)) {
@@ -337,7 +337,7 @@ class DriverController {
         
         // Move uploaded file
         if (move_uploaded_file($file['tmp_name'], $targetFile)) {
-            return 'assets/img/drivers/' . $fileName;
+            return 'uploads/' . $fileName;
         }
         
         return false;

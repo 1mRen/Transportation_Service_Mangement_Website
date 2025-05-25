@@ -5,37 +5,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TMS - Sign In | Transport Management System</title>
-    <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+    <link rel="icon" type="image/png" href="/public/assets/img/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
-    <link rel="stylesheet" href="/public/assets/css/stylesr.css">
+    <link rel="stylesheet" href="../../../public/assets/css/stylesr.css">
 </head>
 <body>
     <div class="navbar">
         <div class="logo">
             <a href="/">
-                <img src="/public/assets/img/logo.jpg" alt="TMS Logo">
+                <img src="../../../public/assets/img/logo.png" alt="TMS Logo">
             </a>
-        </div>
-        <div class="nav-links">
-            <a href="/feature.html"><i class="fas fa-star"></i> <span>Features</span></a>
-            <a href="/Driving-hours.html"><i class="fas fa-clock"></i> <span>Driving Hours</span></a>
-            <a href="/help.html"><i class="fas fa-question-circle"></i> <span>Help/FAQ</span></a>
-            <a href="/ask-technician.html"><i class="fas fa-headset"></i> <span>Support</span></a>
         </div>
     </div>
     
     <div class="main-container">
         <div class="inner-container">
             <div class="form-section">
-              <div class="back-button">
-                  <a href="../../../index.php">
-                      <i class="fas fa-arrow-left"></i>
-                      <span>Back to Home</span>
-                  </a>
-              </div>
+              
                 <div class="logo">
-                    <img src="/assets/img/logo.jpg" alt="TMS Logo">
+                    <img src="../../../public/assets/img/logo.png" alt="TMS Logo">
                 </div>
                 <h3>Welcome Back</h3>
                 
@@ -113,14 +102,14 @@
         });
         
         // Password visibility toggle
-        const passwordToggle = document.querySelector('.password-toggle');
-        const passwordInput = document.querySelector('#password');
-        
-        passwordToggle.addEventListener('click', () => {
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
-            passwordToggle.classList.toggle('fa-eye');
-            passwordToggle.classList.toggle('fa-eye-slash');
+        document.querySelectorAll('.password-toggle').forEach(toggle => {
+            const input = toggle.parentElement.querySelector('input[type="password"], input[type="text"]');
+            toggle.addEventListener('click', () => {
+                const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                input.setAttribute('type', type);
+                toggle.classList.toggle('fa-eye');
+                toggle.classList.toggle('fa-eye-slash');
+            });
         });
         
         // Navbar scroll effect

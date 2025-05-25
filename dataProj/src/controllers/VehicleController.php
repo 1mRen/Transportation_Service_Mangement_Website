@@ -187,11 +187,47 @@ class VehicleController
     public function updateVehicleStatus($id, $statusId)
     {
         try {
+            // Get current vehicle status
+            $vehicle = $this->getVehicleById($id);
+            if (!$vehicle) {
+                return false;
+            }
+
+            // Get status name for notification
+            $stmt = $this->db->prepare("SELECT status_name FROM vehicle_status WHERE status_id = ?");
+            $stmt->bind_param("i", $statusId);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $newStatus = $result->fetch_assoc();
+
+            // Update vehicle status
             $query = "UPDATE vehicle SET status_id = ? WHERE vehicle_id = ?";
             $stmt = $this->db->prepare($query);
             $stmt->bind_param("ii", $statusId, $id);
+            $success = $stmt->execute();
+
+            if ($success) {
+                // Create notification for admins
+                require_once __DIR__ . '/NotificationController.php';
+                $notificationController = new NotificationController();
+                
+                $title = "Vehicle Status Updated";
+                $message = "Vehicle {$vehicle['plate_no']} ({$vehicle['type_of_vehicle']}) status has been changed to {$newStatus['status_name']}";
+                
+                // Set notification type based on status
+                $type = 'info';
+                if (strtolower($newStatus['status_name']) === 'maintenance') {
+                    $type = 'warning';
+                } elseif (strtolower($newStatus['status_name']) === 'out of service') {
+                    $type = 'danger';
+                } elseif (strtolower($newStatus['status_name']) === 'available') {
+                    $type = 'success';
+                }
+                
+                $notificationController->notifyAdmins($title, $message, $type);
+            }
             
-            return $stmt->execute();
+            return $success;
         } catch (\Exception $e) {
             error_log("Error updating vehicle status: " . $e->getMessage());
             return false;

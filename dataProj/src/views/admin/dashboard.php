@@ -35,7 +35,7 @@ if (!$conn) {
 $countQueries = [
     'users' => "SELECT COUNT(*) FROM users WHERE role = 'Applicant'",
     'vehicles' => "SELECT COUNT(*) FROM vehicle",
-    'bookings' => "SELECT COUNT(*) FROM reservation",
+    'reservations' => "SELECT COUNT(*) FROM reservation",
     'pending' => "SELECT COUNT(*) FROM reservation WHERE status_id = 1", // Assuming 1 is pending status
 ];
 
@@ -45,24 +45,22 @@ foreach ($countQueries as $key => $query) {
     $counts[$key] = mysqli_fetch_array($result)[0];
 }
 
-// Get recent bookings
-$recentBookingsQuery = "SELECT r.reservation_id, r.date_of_use, r.departure_area, r.destination, 
-                    r.departure_time, r.return_time,
-                    a.full_name as applicant_name,
-                    rs.status_name as reservation_status,
-                    v.plate_no, v.type_of_vehicle
+// Get recent reservations
+$recentReservationsQuery = "SELECT r.reservation_id, r.date_of_use, r.departure_area, r.destination,
+                           r.departure_time, r.return_time, r.purpose, r.status_id,
+                           a.full_name as applicant_name, v.plate_no, v.type_of_vehicle, rs.status_name as reservation_status
                     FROM reservation r
+                           JOIN applicant a ON r.applicant_id = a.applicant_id
+                           JOIN vehicle v ON r.vehicle_id = v.vehicle_id
                     JOIN reservation_status rs ON r.status_id = rs.status_id
-                    JOIN vehicle v ON r.vehicle_id = v.vehicle_id
-                    JOIN applicant a ON r.applicant_id = a.applicant_id
-                    ORDER BY r.reservation_id DESC
+                           ORDER BY r.date_of_use DESC
                     LIMIT 5";
 
-$recentBookingsResult = mysqli_query($conn, $recentBookingsQuery);
-$recentBookings = [];
+$recentReservationsResult = mysqli_query($conn, $recentReservationsQuery);
+$recentReservations = [];
 
-while ($row = mysqli_fetch_assoc($recentBookingsResult)) {
-    $recentBookings[] = $row;
+while ($row = mysqli_fetch_assoc($recentReservationsResult)) {
+    $recentReservations[] = $row;
 }
 
 // Get vehicles and their status
@@ -136,13 +134,13 @@ $layout->renderHeader();
                         <i class="fa fa-calendar fa-3x"></i>
                     </div>
                     <div class="stat-card-content">
-                        <h5 class="stat-card-title">Total Bookings</h5>
-                        <h2 class="stat-card-value"><?php echo $counts['bookings']; ?></h2>
+                        <h5 class="stat-card-title">Total Reservations</h5>
+                        <h2 class="stat-card-value"><?php echo $counts['reservations']; ?></h2>
                     </div>
                 </div>
             </div>
             <div class="card-footer d-flex align-items-center justify-content-between">
-                <a href="/bookings.php" class="text-white">View Details</a>
+                <a href="/src/views/reservations/index.php" class="text-white">View Details</a>
                 <span class="text-white"><i class="fa fa-angle-right"></i></span>
             </div>
         </div>
@@ -162,7 +160,7 @@ $layout->renderHeader();
                 </div>
             </div>
             <div class="card-footer d-flex align-items-center justify-content-between">
-                <a href="/pending-bookings.php" class="text-white">View Details</a>
+                <a href="/src/views/reservations/pending.php" class="text-white">View Details</a>
                 <span class="text-white"><i class="fa fa-angle-right"></i></span>
             </div>
         </div>
@@ -179,23 +177,21 @@ $layout->renderHeader();
                     <a href="/src/views/usermanagement/createUser.php" class="btn btn-primary"><i class="fa fa-user-plus"></i> Add User</a>
                     <a href="/src/views/vehicles/create.php" class="btn btn-success"><i class="fa fa-plus-circle"></i> Add Vehicle</a>
                     <a href="/src/views/drivers/create.php" class="btn btn-info"><i class="fa fa-id-card"></i> Add Driver</a>
-                    <a href="/announcements.php" class="btn btn-warning"><i class="fa fa-bullhorn"></i> Post Announcement</a>
-                    <a href="/reports.php" class="btn btn-secondary"><i class="fa fa-chart-bar"></i> Generate Reports</a>
+                    
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Recent Booking Requests -->
-<div class="card mb-4">
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <h5 class="mb-0">Recent Booking Requests</h5>
-        <a href="/bookings.php" class="btn btn-sm btn-primary">View All</a>
+<!-- Recent Reservation Requests -->
+<div class="recent-reservations">
+    <div class="section-header">
+        <h5 class="mb-0">Recent Reservation Requests</h5>
+        <a href="/src/views/reservations/index.php" class="btn btn-sm btn-primary">View All</a>
     </div>
-    <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-striped">
+        <table class="table reservation-table">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -208,38 +204,35 @@ $layout->renderHeader();
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if (empty($recentBookings)): ?>
+                <?php if (empty($recentReservations)): ?>
                     <tr>
-                        <td colspan="7" class="text-center">No booking requests found.</td>
+                        <td colspan="7" class="text-center">No reservation requests found.</td>
                     </tr>
                     <?php else: ?>
-                        <?php foreach ($recentBookings as $booking): ?>
+                    <?php foreach ($recentReservations as $reservation): ?>
                         <tr>
-                            <td><?php echo $booking['reservation_id']; ?></td>
-                            <td><?php echo $booking['applicant_name']; ?></td>
-                            <td><?php echo $booking['type_of_vehicle'] . ' (' . $booking['plate_no'] . ')'; ?></td>
-                            <td><?php echo date('M d, Y', strtotime($booking['date_of_use'])); ?></td>
-                            <td><?php echo $booking['destination']; ?></td>
+                            <td><?php echo $reservation['reservation_id']; ?></td>
+                            <td><?php echo $reservation['applicant_name']; ?></td>
+                            <td><?php echo $reservation['type_of_vehicle'] . ' (' . $reservation['plate_no'] . ')'; ?></td>
+                            <td><?php echo date('M d, Y', strtotime($reservation['date_of_use'])); ?></td>
+                            <td><?php echo $reservation['destination']; ?></td>
                             <td>
-                                <span class="badge bg-<?php echo strtolower($booking['reservation_status']) === 'pending' ? 'warning' : (strtolower($booking['reservation_status']) === 'approved' ? 'success' : 'danger'); ?>">
-                                    <?php echo $booking['reservation_status']; ?>
+                                <span class="badge bg-<?php echo strtolower($reservation['reservation_status']) === 'pending' ? 'warning' : (strtolower($reservation['reservation_status']) === 'approved' ? 'success' : 'danger'); ?>">
+                                    <?php echo $reservation['reservation_status']; ?>
                                 </span>
                             </td>
                             <td>
-                                <div class="btn-group">
-                                    <a href="/view-booking.php?id=<?php echo $booking['reservation_id']; ?>" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
-                                    <?php if ($booking['reservation_status'] == 'Pending'): ?>
-                                    <a href="/approve-booking.php?id=<?php echo $booking['reservation_id']; ?>" class="btn btn-sm btn-success"><i class="fa fa-check"></i></a>
-                                    <a href="/decline-booking.php?id=<?php echo $booking['reservation_id']; ?>" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a>
+                                <a href="/src/views/reservations/view.php?id=<?php echo $reservation['reservation_id']; ?>" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
+                                <?php if ($reservation['reservation_status'] == 'Pending'): ?>
+                                    <a href="/src/views/reservations/approve.php?id=<?php echo $reservation['reservation_id']; ?>" class="btn btn-sm btn-success"><i class="fa fa-check"></i></a>
+                                    <a href="/src/views/reservations/decline.php?id=<?php echo $reservation['reservation_id']; ?>" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a>
                                     <?php endif; ?>
-                                </div>
                             </td>
                         </tr>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </tbody>
             </table>
-        </div>
     </div>
 </div>
 
